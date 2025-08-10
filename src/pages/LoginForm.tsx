@@ -17,14 +17,11 @@ const LoginForm = () => {
   const onSubmit = async (data: { email: string; password: string }) => {
     try {
       setIsLoading(true);
-      const res = await fetch(
-        `${import.meta.env.VITE_API_URI}/api/users/login`,
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(data),
-        }
-      );
+      const res = await fetch(`${import.meta.env.VITE_API_URI}users/login`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data),
+      });
       if (!res.ok) {
         throw new Error("Invalid credentials");
       }

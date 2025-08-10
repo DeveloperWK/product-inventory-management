@@ -59,6 +59,7 @@ interface OrderFormData {
   recipient_address: string;
   note: string;
   invoice: string;
+  delivery_type: string;
 }
 interface CashAccountForm {
   type: string;

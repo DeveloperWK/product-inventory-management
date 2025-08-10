@@ -6,6 +6,7 @@ import Categories from "../pages/Categories";
 import CreateCashAcc from "../pages/CreateCashAcc";
 import CreateOrder from "../pages/CreateOrder";
 import CreateProduct from "../pages/CreateProduct";
+import CreateTransaction from "../pages/CreateTransaction";
 import Dashboard from "../pages/Dashboard";
 import LoginForm from "../pages/LoginForm";
 import OrderShow from "../pages/OrderShow";
@@ -72,6 +73,10 @@ const router = createBrowserRouter([
       {
         path: "/get-orders",
         element: <OrderShow />,
+      },
+      {
+        path: "/make-transaction",
+        element: <CreateTransaction />,
       },
     ],
   },

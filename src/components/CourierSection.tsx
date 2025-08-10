@@ -26,6 +26,23 @@ const CourierSection = ({
         {courier && (
           <div className="space-y-4">
             <div>
+              <label className="block mb-1 font-semibold">Delivery Type</label>
+              <select
+                {...register("delivery_type", {
+                  required: "Delivery type is required",
+                })}
+                className="w-full p-2 border rounded"
+              >
+                <option value="0">Home Delivery</option>
+                <option value="1">Point Delivery</option>
+              </select>
+              {errors.delivery_type && (
+                <p className="text-red-500 text-sm">
+                  {errors.delivery_type.message as string}
+                </p>
+              )}
+            </div>
+            <div>
               <label className="block text-sm font-medium mb-1">
                 Recipient Name
               </label>

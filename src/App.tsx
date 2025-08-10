@@ -2,15 +2,15 @@ import React, { useState } from "react";
 
 import { Outlet } from "react-router";
 import Sidebar from "./components/Sidebar";
+import { useAuth } from "./hooks/useAuth";
 
 const App: React.FC = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const { isAuthenticated } = useAuth();
 
   const toggleSidebar = () => {
     setIsSidebarOpen(!isSidebarOpen);
   };
-
-  // const [installPromptEvent, promptInstall] = usePWAInstallPrompt();
 
   return (
     <div className="flex min-h-screen dark:bg-gray-800 dark:text-white">
@@ -29,6 +29,29 @@ const App: React.FC = () => {
 
         {/* Page Content */}
         <div className="flex-1 p-6  bg-[#F2EDD1]">
+          {!isAuthenticated && (
+            <div className="max-w-md mx-auto mt-12 p-6 bg-white rounded-lg shadow-md">
+              <div className="text-center mb-6">
+                <h2 className="text-2xl font-bold text-gray-800">
+                  Welcome to Our App
+                </h2>
+                <p className="text-gray-600 mt-2">
+                  Please sign in to continue{" "}
+                  <a href="/login" className="text-blue-500 hover:underline">
+                    Sign in
+                  </a>
+                </p>
+              </div>
+              <div className="mt-6 pt-6 border-t border-gray-200">
+                <p className="text-sm text-gray-500 text-center">
+                  Don't have an account?{" "}
+                  <a href="/register" className="text-blue-500 hover:underline">
+                    Sign up
+                  </a>
+                </p>
+              </div>
+            </div>
+          )}
           <Outlet />
         </div>
       </div>

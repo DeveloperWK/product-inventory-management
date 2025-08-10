@@ -88,7 +88,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen = true, onClose }) => {
             <span className="ml-3">Orders</span>
           </Link>
         </li>
-        {isAuthenticated && (
+        {!isAuthenticated && (
           <li>
             <Link
               to={"/register"}

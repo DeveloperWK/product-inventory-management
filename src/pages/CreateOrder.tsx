@@ -28,6 +28,7 @@ const CreateOrder: React.FC = () => {
       recipient_address: "",
       note: "",
       invoice: "",
+      delivery_type: "",
     },
   });
 
