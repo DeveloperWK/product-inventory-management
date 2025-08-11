@@ -79,7 +79,7 @@ const ItemsOrder = ({
                             setShowSuggestionsIndex(null);
                           }}
                         >
-                          {suggestion.sku}
+                          {suggestion.name}
                         </div>
                       ),
                     )}

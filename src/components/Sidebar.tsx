@@ -45,7 +45,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen = true, onClose }) => {
 
       {/* Sidebar Content */}
       <div className="p-6 text-center">
-        <h2 className="text-2xl font-bold">Product Manager</h2>
+        <h2 className="text-2xl font-bold">Clicked & Buy</h2>
       </div>
       <ul className="mt-6">
         <li>

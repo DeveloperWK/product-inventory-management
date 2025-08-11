@@ -16,7 +16,6 @@ export default function ProductForm() {
     mode: "onChange",
     defaultValues: {
       name: "",
-      description: "",
       price: 0,
       stock: 0,
       cost: 0,
@@ -41,6 +40,13 @@ export default function ProductForm() {
       price: Number(formData?.price),
       stock: Number(formData?.stock),
     });
+    setValue("name", "");
+    setValue("price", 0);
+    setValue("stock", 0);
+    setValue("cost", 0);
+    setValue("category", "");
+    setValue("reorderLevel", 0);
+    setValue("supplier", "");
   };
 
   return (
@@ -71,28 +77,6 @@ export default function ProductForm() {
             {errors.name && (
               <p className="mt-2 text-sm text-red-500">
                 {errors.name.message as string}
-              </p>
-            )}
-          </div>
-
-          {/* Description */}
-          <div>
-            <label className="block mb-2 text-sm font-medium text-gray-700 dark:text-gray-300">
-              Description
-            </label>
-            <textarea
-              {...register("description", {
-                required: "Description is required",
-              })}
-              className="w-full px-4 py-3 rounded-lg bg-gray-200 dark:bg-gray-800 border
-              border-gray-300 dark:border-gray-700 focus:outline-none focus:ring-2
-              focus:ring-indigo-500 dark:focus:ring-indigo-600"
-              rows={4}
-              placeholder="Enter product description"
-            />
-            {errors.description && (
-              <p className="mt-2 text-sm text-red-500">
-                {errors.description.message as string}
               </p>
             )}
           </div>

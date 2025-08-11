@@ -8,6 +8,7 @@ interface ProductTableProps {
 
 const ProductTable = ({ products }: ProductTableProps) => {
   const { deleteProduct } = useProduct();
+  const { categories } = useProduct();
   const handleEdit = (id: string) => {
     console.log("Edit button clicked", id);
   };
@@ -22,6 +23,9 @@ const ProductTable = ({ products }: ProductTableProps) => {
             </th>
             <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
               Name
+            </th>
+            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
+              Category
             </th>
             <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
               Price
@@ -45,6 +49,11 @@ const ProductTable = ({ products }: ProductTableProps) => {
               </td>
               <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 dark:text-white">
                 {product.name}
+              </td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 dark:text-white">
+                {categories.find(
+                  (category) => category._id === product.category,
+                )?.name || "N/A"}
               </td>
               <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">
                 ৳ {product.price.toFixed(2)}

@@ -53,8 +53,8 @@ const CreateOrder: React.FC = () => {
   const { products } = useProduct();
   console.log(products);
   const handleSuggestion = (searchTerm: string) => {
-    return products?.filter(({ sku }) =>
-      sku.toLowerCase().includes(searchTerm.toLowerCase()),
+    return products?.filter(({ name }) =>
+      name.toLowerCase().includes(searchTerm.toLowerCase()),
     );
   };
 

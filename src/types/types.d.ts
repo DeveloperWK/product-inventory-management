@@ -3,7 +3,7 @@ type Product = {
   name: string;
   price: number;
   stock: number;
-  categoryName: string;
+  category: string;
   sku: string;
 };
 type Category = {
@@ -72,7 +72,6 @@ interface ProductForm {
   stock: number;
   category: string;
   sku: string;
-  description?: string;
   cost: number;
   reorderLevel: number;
   supplier: string;
