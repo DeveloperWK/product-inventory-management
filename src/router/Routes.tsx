@@ -3,6 +3,7 @@ import App from "../App";
 import RoleProtectedRoute from "../components/RoleProtectedRoute";
 import Unauthorized from "../components/Unauthorized";
 import Categories from "../pages/Categories";
+import CreateBusinessOrder from "../pages/CreateBusinessOrder";
 import CreateCashAcc from "../pages/CreateCashAcc";
 import CreateOrder from "../pages/CreateOrder";
 import CreateProduct from "../pages/CreateProduct";
@@ -77,6 +78,10 @@ const router = createBrowserRouter([
       {
         path: "/make-transaction",
         element: <CreateTransaction />,
+      },
+      {
+        path: "/create-business-order",
+        element: <CreateBusinessOrder />,
       },
     ],
   },

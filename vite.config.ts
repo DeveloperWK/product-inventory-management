@@ -8,8 +8,8 @@ export default defineConfig({
     VitePWA({
       registerType: "autoUpdate",
       manifest: {
-        name: "Clicked & Buy",
-        short_name: "Clicked & Buy",
+        name: "Click & Buy",
+        short_name: "Click & Buy",
         description: "It's a product inventory management app",
         orientation: "portrait",
         display_override: [

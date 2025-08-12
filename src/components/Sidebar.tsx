@@ -44,8 +44,13 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen = true, onClose }) => {
       </button>
 
       {/* Sidebar Content */}
-      <div className="p-6 text-center">
-        <h2 className="text-2xl font-bold">Clicked & Buy</h2>
+      <div className="p-6 flex flex-col items-center">
+        <img
+          src="icons/pwa-192x192.png"
+          alt="Logo"
+          className="w-16 h-16 mb-4 rounded-full"
+        />
+        <h2 className="text-2xl font-bold">Click & Buy</h2>
       </div>
       <ul className="mt-6">
         <li>
@@ -118,6 +123,16 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen = true, onClose }) => {
           >
             <span>💸</span>
             <span className="ml-3">Create Account</span>
+          </Link>
+        </li>
+        <li>
+          <Link
+            to={"/make-transaction"}
+            onClick={onClose}
+            className="flex items-center p-4 hover:bg-gray-700 transition-colors duration-200"
+          >
+            <span>💸</span>
+            <span className="ml-3">Make Transaction</span>
           </Link>
         </li>
         {!isAuthenticated && (
