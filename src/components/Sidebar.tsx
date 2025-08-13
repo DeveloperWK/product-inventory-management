@@ -93,7 +93,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen = true, onClose }) => {
             <span className="ml-3">Orders</span>
           </Link>
         </li>
-        {!isAuthenticated && (
+        {isAuthenticated && (
           <li>
             <Link
               to={"/register"}
@@ -117,6 +117,16 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen = true, onClose }) => {
         </li>
         <li>
           <Link
+            to={"/create-b2b-order"}
+            onClick={onClose}
+            className="flex items-center p-4 hover:bg-gray-700 transition-colors duration-200"
+          >
+            <span>🛒</span>
+            <span className="ml-3">Create B2B Order</span>
+          </Link>
+        </li>
+        <li>
+          <Link
             to={"/create-account"}
             onClick={onClose}
             className="flex items-center p-4 hover:bg-gray-700 transition-colors duration-200"
@@ -135,6 +145,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen = true, onClose }) => {
             <span className="ml-3">Make Transaction</span>
           </Link>
         </li>
+
         {!isAuthenticated && (
           <li>
             <Link

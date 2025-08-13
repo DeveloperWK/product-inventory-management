@@ -1,43 +1,15 @@
-type Product = {
+interface Product extends ProductForm {
   _id?: string;
-  name: string;
-  price: number;
-  stock: number;
-  category: string;
-  sku: string;
-};
+}
 type Category = {
   _id: string;
   name: string;
 };
-type CategoryWiseStock = {
-  totalStock: number;
-  categoryName: string;
-};
-
-type TotalStock = {
-  fullStock: number;
-};
-
-type AveragePrice = {
-  averagePrice: number;
-};
-
-type ProductsWithTotalStock = {
-  productList: Product[];
-  categoryWiseStock: CategoryWiseStock[];
-  totalStock: TotalStock[];
-  averagePrice: AveragePrice[];
-};
-
-// type ProductsResponse = {
-//   message: string;
-//   productsWithTotalStock: ProductsWithTotalStock[];
-//   currentPage: number;
-//   count: number;
-//   totalPages: number;
-// };
-
+interface Supplier {
+  _id: string;
+  name: string;
+  contact: string;
+}
 type OrderType = "purchase" | "sale";
 type PaymentStatus = "paid" | "pending" | "partial";
 
@@ -113,12 +85,22 @@ interface OrderShowTable {
   trackingCode: string;
   updatedAt: string;
 }
+interface BusinessOrderForm {
+  name: string;
+  supplierId: string;
+  due: number;
+  payment: number;
+  total: number;
+  discount: number;
+  quantity: number;
+  date: string;
+}
+
 export type {
-  AveragePrice,
+  BusinessOrderForm,
   CashAccount,
   CashAccountForm,
   Category,
-  CategoryWiseStock,
   OrderData,
   OrderFormData,
   OrderItem,
@@ -128,8 +110,6 @@ export type {
   PaymentStatus,
   Product,
   ProductCount,
-  ProductForm,
-  ProductsWithTotalStock,
   StatusConfig,
-  TotalStock,
+  Supplier,
 };

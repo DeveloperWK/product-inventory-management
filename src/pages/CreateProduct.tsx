@@ -2,7 +2,7 @@ import { Suspense } from "react";
 import { useForm } from "react-hook-form";
 import { useProduct } from "../hooks/useProduct";
 import generateSku from "../lib/generateSku";
-import { Category, ProductForm as ProductFormType } from "../types/types";
+import { Category, Product } from "../types/types";
 
 export default function ProductForm() {
   const { categories, createProduct, productsLoading } = useProduct();
@@ -13,7 +13,7 @@ export default function ProductForm() {
     watch,
     reset,
     formState: { errors },
-  } = useForm<ProductFormType>({
+  } = useForm<Product>({
     mode: "onChange",
     defaultValues: {
       name: "",

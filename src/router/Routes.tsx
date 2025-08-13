@@ -53,7 +53,11 @@ const router = createBrowserRouter([
       },
       {
         path: "/register",
-        element: <RegistrationForm />,
+        element: (
+          <RoleProtectedRoute requiredRole="admin">
+            <RegistrationForm />
+          </RoleProtectedRoute>
+        ),
       },
       {
         path: "/login",
@@ -65,34 +69,45 @@ const router = createBrowserRouter([
       },
       {
         path: "/create-order",
-        element: <CreateOrder />,
+        element: (
+          <RoleProtectedRoute requiredRole="admin">
+            <CreateOrder />
+          </RoleProtectedRoute>
+        ),
       },
       {
         path: "/create-account",
-        element: <CreateCashAcc />,
+        element: (
+          <RoleProtectedRoute requiredRole="admin">
+            <CreateCashAcc />
+          </RoleProtectedRoute>
+        ),
       },
       {
         path: "/get-orders",
-        element: <OrderShow />,
+        element: (
+          <RoleProtectedRoute requiredRole="admin">
+            <OrderShow />
+          </RoleProtectedRoute>
+        ),
       },
       {
         path: "/make-transaction",
-        element: <CreateTransaction />,
+        element: (
+          <RoleProtectedRoute requiredRole="admin">
+            <CreateTransaction />
+          </RoleProtectedRoute>
+        ),
       },
       {
-        path: "/create-business-order",
-        element: <CreateBusinessOrder />,
+        path: "/create-b2b-order",
+        element: (
+          <RoleProtectedRoute requiredRole="admin">
+            <CreateBusinessOrder />
+          </RoleProtectedRoute>
+        ),
       },
     ],
   },
-
-  // {
-  //   path: "/orders",
-  //   element: <Orders />,
-  // },
-  // {
-  //   path: "/settings",
-  //   element: <Settings />,
-  // },
 ]);
 export default router;

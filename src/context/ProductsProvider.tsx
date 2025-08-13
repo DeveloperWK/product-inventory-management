@@ -1,5 +1,5 @@
 import { ReactNode, useEffect, useState } from "react";
-import { Category, Product, ProductForm } from "../types/types";
+import { Category, Product } from "../types/types";
 import ProductsContext from "./ProductsContext";
 
 interface ProductsProviderProps {
@@ -24,7 +24,7 @@ export const ProductsProvider = ({ children }: ProductsProviderProps) => {
       setProductsLoading(false);
     }
   };
-  const createProduct = async (product: ProductForm) => {
+  const createProduct = async (product: Product) => {
     try {
       setProductsLoading(true);
       const res = await fetch(`${import.meta.env.VITE_API_URI}products`, {
