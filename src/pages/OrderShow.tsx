@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import { OrderShowTable } from "../types/types";
 
 const OrderShow = () => {
-  // const [orders, setOrders] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [orders, setOrders] = useState<OrderShowTable[]>([]);
   const [updateLoading, setUpdateLoading] = useState(false);
@@ -17,15 +16,14 @@ const OrderShow = () => {
       setIsLoading(true);
       const res = await fetch(`${import.meta.env.VITE_API_URI}orders`);
       const data = await res.json();
-      if (res.ok) {
-        setOrders(data);
-      }
+      if (res.ok) setOrders(data);
     } catch (err) {
       console.error(err);
     } finally {
       setIsLoading(false);
     }
   };
+
   const handleUpdateClick = async (orderId: string) => {
     try {
       setUpdateLoading(true);
@@ -33,9 +31,7 @@ const OrderShow = () => {
         `${import.meta.env.VITE_API_URI}orders/${orderId}`,
         {
           method: "PATCH",
-          headers: {
-            "Content-Type": "application/json",
-          },
+          headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
             status: tempStatus,
             paymentStatus: tempPaymentStatus,
@@ -62,9 +58,6 @@ const OrderShow = () => {
       setUpdateLoading(false);
     }
   };
-  useEffect(() => {
-    fetchOrders();
-  }, []);
 
   const handleEditClick = (order: OrderShowTable) => {
     setEditingOrderId(order._id);
@@ -72,96 +65,54 @@ const OrderShow = () => {
     setTempPaymentStatus(order.paymentStatus);
   };
 
-  // const handleUpdateClick = (orderId: string) => {
-  //   setOrders(
-  //     orders.map((order) =>
-  //       order._id === orderId
-  //         ? { ...order, status: tempStatus, paymentStatus: tempPaymentStatus }
-  //         : order,
-  //     ),
-  //   );
-  //   setEditingOrderId(null);
-  // };
+  const handleCancelClick = () => setEditingOrderId(null);
 
-  const handleCancelClick = () => {
-    setEditingOrderId(null);
-  };
+  const formatDate = (dateString: string) =>
+    new Date(dateString).toLocaleString();
 
-  const formatDate = (dateString: string) => {
-    return new Date(dateString).toLocaleString();
-  };
-  if (isLoading) {
-    return <div> Orders Loading...</div>;
-  }
+  useEffect(() => {
+    fetchOrders();
+  }, []);
+
+  if (isLoading) return <div className="p-4">Orders Loading...</div>;
+
   return (
     <div className="max-w-6xl mx-auto p-4">
       <h1 className="text-2xl font-bold mb-6">Order List</h1>
 
-      <div className="bg-white rounded-lg shadow overflow-hidden">
-        {/* Container with both vertical and horizontal scrolling */}
-        <div className="overflow-auto max-h-[70vh]">
-          <table className="min-w-full divide-y divide-gray-200">
-            <thead className="bg-gray-50 sticky top-0 z-10">
+      <div className="bg-white dark:bg-gray-800 rounded-lg shadow overflow-hidden">
+        {/* Desktop Table */}
+        <div className="hidden sm:block overflow-x-auto max-h-[70vh]">
+          <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
+            <thead className="bg-gray-50 dark:bg-gray-900 sticky top-0 z-10">
               <tr>
-                <th
-                  scope="col"
-                  className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider whitespace-nowrap"
-                >
-                  Order ID
-                </th>
-                <th
-                  scope="col"
-                  className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider whitespace-nowrap"
-                >
-                  Order Type
-                </th>
-                <th
-                  scope="col"
-                  className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider whitespace-nowrap"
-                >
-                  Amount
-                </th>
-                <th
-                  scope="col"
-                  className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider whitespace-nowrap"
-                >
-                  Status
-                </th>
-                <th
-                  scope="col"
-                  className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider whitespace-nowrap"
-                >
-                  Payment Status
-                </th>
-                <th
-                  scope="col"
-                  className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider whitespace-nowrap"
-                >
-                  Courier ID
-                </th>
-                <th
-                  scope="col"
-                  className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider whitespace-nowrap"
-                >
-                  Tracking Code
-                </th>
-                <th
-                  scope="col"
-                  className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider whitespace-nowrap"
-                >
-                  Last Updated
-                </th>
-                <th
-                  scope="col"
-                  className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider whitespace-nowrap"
-                >
-                  Actions
-                </th>
+                {[
+                  "Order ID",
+                  "Type",
+                  "Amount",
+                  "Status",
+                  "Payment",
+                  "Courier",
+                  "Tracking",
+                  "Updated",
+                  "Actions",
+                ].map((col) => (
+                  <th
+                    key={col}
+                    className="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider whitespace-nowrap"
+                  >
+                    {col}
+                  </th>
+                ))}
               </tr>
             </thead>
-            <tbody className="bg-white divide-y divide-gray-200">
+
+            <tbody className="bg-white divide-y divide-gray-200 dark:divide-gray-700">
               {orders.map((order) => (
-                <tr key={order._id} className="hover:bg-gray-50">
+                <tr
+                  key={order._id}
+                  className="hover:bg-gray-50 dark:hover:bg-gray-700"
+                >
                   <td className="px-4 py-3 whitespace-nowrap text-sm text-gray-900 font-mono">
                     {order._id.substring(0, 8)}...
                   </td>
@@ -169,10 +120,8 @@ const OrderShow = () => {
                     {order.orderType}
                   </td>
                   <td className="px-4 py-3 whitespace-nowrap text-sm text-gray-900">
-                    {order.totalAmount}{" "}
-                    <span className="text-gray-400">TK</span>
+                    {order.totalAmount} TK
                   </td>
-
                   <td className="px-4 py-3 whitespace-nowrap">
                     {editingOrderId === order._id ? (
                       <select
@@ -184,11 +133,17 @@ const OrderShow = () => {
                         }
                         className="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 text-sm"
                       >
-                        <option value="processing">Processing</option>
-                        <option value="delivered">Delivered</option>
-                        <option value="cancelled">Cancelled</option>
-                        <option value="completed">Completed</option>
-                        <option value="returned">Returned</option>
+                        {[
+                          "processing",
+                          "delivered",
+                          "cancelled",
+                          "completed",
+                          "returned",
+                        ].map((status) => (
+                          <option key={status} value={status}>
+                            {status}
+                          </option>
+                        ))}
                       </select>
                     ) : (
                       <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-blue-100 text-blue-800 capitalize">
@@ -196,7 +151,6 @@ const OrderShow = () => {
                       </span>
                     )}
                   </td>
-
                   <td className="px-4 py-3 whitespace-nowrap">
                     {editingOrderId === order._id ? (
                       <select
@@ -208,9 +162,11 @@ const OrderShow = () => {
                         }
                         className="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 text-sm"
                       >
-                        <option value="pending">Pending</option>
-                        <option value="paid">Paid</option>
-                        <option value="partial">Partial</option>
+                        {["pending", "paid", "partial"].map((status) => (
+                          <option key={status} value={status}>
+                            {status}
+                          </option>
+                        ))}
                       </select>
                     ) : (
                       <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800 capitalize">
@@ -218,7 +174,6 @@ const OrderShow = () => {
                       </span>
                     )}
                   </td>
-
                   <td className="px-4 py-3 whitespace-nowrap text-sm text-gray-500 font-mono">
                     {order.courierId}
                   </td>
@@ -228,19 +183,18 @@ const OrderShow = () => {
                   <td className="px-4 py-3 whitespace-nowrap text-sm text-gray-500">
                     {formatDate(order.updatedAt)}
                   </td>
-
                   <td className="px-4 py-3 whitespace-nowrap text-sm font-medium">
                     {editingOrderId === order._id ? (
-                      <div className="flex flex-col space-y-1 sm:flex-row sm:space-y-0 sm:space-x-2">
+                      <div className="flex space-x-2">
                         <button
                           onClick={() => handleUpdateClick(order._id)}
-                          className="text-xs text-white bg-indigo-600 hover:bg-indigo-700 px-2 py-1 rounded whitespace-nowrap"
+                          className="text-xs text-white bg-indigo-600 hover:bg-indigo-700 px-2 py-1 rounded"
                         >
                           Update
                         </button>
                         <button
                           onClick={handleCancelClick}
-                          className="text-xs text-gray-700 bg-gray-200 hover:bg-gray-300 px-2 py-1 rounded whitespace-nowrap"
+                          className="text-xs text-gray-700 bg-gray-200 hover:bg-gray-300 px-2 py-1 rounded"
                         >
                           Cancel
                         </button>
@@ -249,7 +203,7 @@ const OrderShow = () => {
                       <button
                         onClick={() => handleEditClick(order)}
                         disabled={updateLoading}
-                        className="text-xs text-indigo-600 hover:text-indigo-900 bg-indigo-50 hover:bg-indigo-100 px-2 py-1 rounded whitespace-nowrap"
+                        className="text-xs text-indigo-600 hover:text-indigo-900 bg-indigo-50 hover:bg-indigo-100 px-2 py-1 rounded"
                       >
                         Edit
                       </button>
@@ -260,8 +214,124 @@ const OrderShow = () => {
             </tbody>
           </table>
         </div>
+
+        {/* Mobile Card Layout */}
+        <div className="sm:hidden space-y-4">
+          {orders.map((order) => (
+            <div
+              key={order._id}
+              className="bg-white dark:bg-gray-800 rounded-lg shadow p-4 space-y-2"
+            >
+              <div className="flex justify-between text-sm">
+                <span className="font-semibold">Order ID:</span>
+                <span className="font-mono">
+                  {order._id.substring(0, 8)}...
+                </span>
+              </div>
+              <div className="flex justify-between text-sm">
+                <span className="font-semibold">Type:</span>
+                <span className="capitalize">{order.orderType}</span>
+              </div>
+              <div className="flex justify-between text-sm">
+                <span className="font-semibold">Amount:</span>
+                <span>{order.totalAmount} TK</span>
+              </div>
+              <div className="flex justify-between text-sm">
+                <span className="font-semibold">Status:</span>
+                {editingOrderId === order._id ? (
+                  <select
+                    value={tempStatus}
+                    onChange={(e) =>
+                      setTempStatus(e.target.value as OrderShowTable["status"])
+                    }
+                    className="block w-full rounded-md border-gray-300 shadow-sm text-sm"
+                  >
+                    {[
+                      "processing",
+                      "delivered",
+                      "cancelled",
+                      "completed",
+                      "returned",
+                    ].map((status) => (
+                      <option key={status} value={status}>
+                        {status}
+                      </option>
+                    ))}
+                  </select>
+                ) : (
+                  <span className="px-2 inline-flex text-xs font-semibold rounded-full bg-blue-100 text-blue-800 capitalize">
+                    {order.status}
+                  </span>
+                )}
+              </div>
+              <div className="flex justify-between text-sm">
+                <span className="font-semibold">Payment:</span>
+                {editingOrderId === order._id ? (
+                  <select
+                    value={tempPaymentStatus}
+                    onChange={(e) =>
+                      setTempPaymentStatus(
+                        e.target.value as OrderShowTable["paymentStatus"],
+                      )
+                    }
+                    className="block w-full rounded-md border-gray-300 shadow-sm text-sm"
+                  >
+                    {["pending", "paid", "partial"].map((status) => (
+                      <option key={status} value={status}>
+                        {status}
+                      </option>
+                    ))}
+                  </select>
+                ) : (
+                  <span className="px-2 inline-flex text-xs font-semibold rounded-full bg-green-100 text-green-800 capitalize">
+                    {order.paymentStatus}
+                  </span>
+                )}
+              </div>
+              <div className="flex justify-between text-sm">
+                <span className="font-semibold">Courier:</span>
+                <span className="font-mono">{order.courierId}</span>
+              </div>
+              <div className="flex justify-between text-sm">
+                <span className="font-semibold">Tracking:</span>
+                <span className="font-mono">{order.trackingCode}</span>
+              </div>
+              <div className="flex justify-between text-sm">
+                <span className="font-semibold">Updated:</span>
+                <span>{formatDate(order.updatedAt)}</span>
+              </div>
+              <div className="flex space-x-2 mt-2">
+                {editingOrderId === order._id ? (
+                  <>
+                    <button
+                      onClick={() => handleUpdateClick(order._id)}
+                      className="text-xs text-white bg-indigo-600 hover:bg-indigo-700 px-2 py-1 rounded"
+                    >
+                      Update
+                    </button>
+                    <button
+                      onClick={handleCancelClick}
+                      className="text-xs text-gray-700 bg-gray-200 hover:bg-gray-300 px-2 py-1 rounded"
+                    >
+                      Cancel
+                    </button>
+                  </>
+                ) : (
+                  <button
+                    onClick={() => handleEditClick(order)}
+                    disabled={updateLoading}
+                    className="text-xs text-indigo-600 hover:text-indigo-900 bg-indigo-50 hover:bg-indigo-100 px-2 py-1 rounded"
+                  >
+                    Edit
+                  </button>
+                )}
+              </div>
+            </div>
+          ))}
+        </div>
       </div>
     </div>
   );
 };
+
 export default OrderShow;

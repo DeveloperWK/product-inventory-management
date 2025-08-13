@@ -1,23 +1,10 @@
-// src/pages/ProductsPage.tsx
 import { Link } from "react-router";
 
 import ProductTable from "../components/ProductTable";
 import { useProduct } from "../hooks/useProduct";
 
 const ProductsPage = () => {
-  // const [showForm, setShowForm] = useState(false);
   const { products, productsLoading } = useProduct();
-  // useEffect(() => {
-  //   // Replace with your actual API call
-  //     setTimeout(() => {
-  //       setLoading(false);
-  //     }, 1000);
-  //   }, []);
-
-  // const handleSave = (product: Product) => {
-  //   setProducts([...products, product]);
-  //   setShowForm(false);
-  // };
 
   if (productsLoading) return <div className="p-4">Loading...</div>;
 
@@ -36,11 +23,7 @@ const ProductsPage = () => {
       </div>
 
       <ProductTable products={products} />
-      {/* <ProductForm`
-        show={showForm}
-        onClose={() => setShowForm(false)}
-        onSave={handleSave}
-      /> */}
+     
     </div>
   );
 };
