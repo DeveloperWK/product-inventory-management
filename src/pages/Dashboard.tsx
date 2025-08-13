@@ -43,10 +43,6 @@ const Dashboard = () => {
   useEffect(() => {
     handleCount();
   }, []);
-  console.log({
-    productsCount,
-    ordersCount,
-  });
   if (isLoading) {
     return <div>Loading...</div>;
   }

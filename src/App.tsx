@@ -1,16 +1,23 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
-import { Outlet } from "react-router";
+import { Outlet, useLocation, useNavigate } from "react-router";
 import Sidebar from "./components/Sidebar";
 import { useAuth } from "./hooks/useAuth";
 
 const App: React.FC = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const { isAuthenticated } = useAuth();
+  const navigate = useNavigate();
+  const path = useLocation();
 
   const toggleSidebar = () => {
     setIsSidebarOpen(!isSidebarOpen);
   };
+  useEffect(() => {
+    if (isAuthenticated && path.pathname === "/") {
+      navigate("/dashboard");
+    }
+  }, [isAuthenticated, navigate, path]);
 
   return (
     <div className="flex min-h-screen dark:bg-gray-800 dark:text-white">
@@ -29,6 +36,7 @@ const App: React.FC = () => {
 
         {/* Page Content */}
         <div className="flex-1 p-6  bg-[#F2EDD1]">
+          {isAuthenticated}
           {!isAuthenticated && (
             <div className="max-w-md mx-auto mt-12 p-6 bg-white rounded-lg shadow-md">
               <div className="text-center mb-6">

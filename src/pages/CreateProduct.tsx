@@ -11,6 +11,7 @@ export default function ProductForm() {
     handleSubmit,
     setValue,
     watch,
+    reset,
     formState: { errors },
   } = useForm<ProductFormType>({
     mode: "onChange",
@@ -29,24 +30,12 @@ export default function ProductForm() {
   const onSubmit = () => {
     setValue("sku", generateSku());
     const formData = watch();
-
-    console.log({
-      ...formData,
-      price: Number(formData?.price),
-      stock: Number(formData?.stock),
-    });
     createProduct({
       ...formData,
       price: Number(formData?.price),
       stock: Number(formData?.stock),
     });
-    setValue("name", "");
-    setValue("price", 0);
-    setValue("stock", 0);
-    setValue("cost", 0);
-    setValue("category", "");
-    setValue("reorderLevel", 0);
-    setValue("supplier", "");
+    reset();
   };
 
   return (

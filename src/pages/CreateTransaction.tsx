@@ -1,36 +1,72 @@
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
+import { CashAccount } from "../types/types";
 
 type TransactionType = "income" | "expense" | "transfer";
-type CashAccount = "cash" | "checking" | "savings";
 
 interface TransactionFormData {
   type: TransactionType;
   category: string;
   amount: number;
   paymentMethod: string;
-  cashAccount: CashAccount;
+  cashAccount: string;
   description?: string;
   date: string;
 }
 const CreateTransaction = () => {
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const [cashAccounts, setCashAccounts] = useState<CashAccount[]>([]);
+
   const {
     register,
     handleSubmit,
     formState: { errors },
     watch,
+    reset,
   } = useForm<TransactionFormData>({
     defaultValues: {
       type: "expense",
-      cashAccount: "cash",
+      cashAccount: "Select Cash Account",
       date: new Date().toISOString().split("T")[0],
     },
   });
+  useEffect(() => {
+    const fetchCashAccounts = async () => {
+      try {
+        const response = await fetch(
+          `${import.meta.env.VITE_API_URI}cash-accounts`,
+        );
+        const data = await response.json();
+        setCashAccounts(data);
+      } catch (err) {
+        console.error(err);
+        setError("Failed to fetch cash accounts");
+      }
+    };
+    fetchCashAccounts();
+  }, []);
 
   const selectedType = watch("type");
 
-  const onSubmit = (data: TransactionFormData) => {
-    console.log("Form submitted:", data);
-    // Handle form submission here
+  const onSubmit = async (data: TransactionFormData) => {
+    try {
+      setIsLoading(true);
+      await fetch(`${import.meta.env.VITE_API_URI}cash-transactions`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+      });
+
+      setIsLoading(false);
+      reset();
+    } catch (err) {
+      console.error(err);
+      setIsLoading(false);
+      setError("Failed to create transaction");
+    }
   };
 
   return (
@@ -89,20 +125,13 @@ const CreateTransaction = () => {
           />
           {selectedType === "income" && (
             <datalist id="incomeCategories">
-              <option value="Salary" />
-              <option value="Bonus" />
-              <option value="Investment" />
-              <option value="Freelance" />
-              <option value="Gift" />
+              <option value="inventory_sale" />
             </datalist>
           )}
           {selectedType === "expense" && (
             <datalist id="expenseCategories">
-              <option value="Food" />
-              <option value="Transport" />
-              <option value="Housing" />
-              <option value="Entertainment" />
-              <option value="Healthcare" />
+              <option value="inventory_purchase" />
+              <option value="product_advertisement" />
             </datalist>
           )}
           {errors.category && (
@@ -193,9 +222,12 @@ const CreateTransaction = () => {
             })}
             className="w-full p-2 border rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
           >
-            <option value="cash">Cash</option>
-            <option value="checking">Checking Account</option>
-            <option value="savings">Savings Account</option>
+            <option disabled={true}>Select Cash Account</option>
+            {cashAccounts.map((account) => (
+              <option key={account._id} value={account._id}>
+                {account.name}
+              </option>
+            ))}
           </select>
           {errors.cashAccount && (
             <p className="mt-1 text-sm text-red-600">
@@ -242,10 +274,12 @@ const CreateTransaction = () => {
         {/* Submit Button */}
         <button
           type="submit"
+          disabled={isLoading}
           className="w-full bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
         >
-          Create Transaction
+          {isLoading ? "Creating Transaction..." : "Create Transaction"}
         </button>
+        {error && <p className="mt-1 text-sm text-red-600">{error}</p>}
       </form>
     </div>
   );

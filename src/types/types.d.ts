@@ -66,6 +66,9 @@ interface CashAccountForm {
   name: string;
   balance?: number;
 }
+interface CashAccount extends CashAccountForm {
+  _id: string;
+}
 interface ProductForm {
   name: string;
   price: number;
@@ -76,7 +79,6 @@ interface ProductForm {
   reorderLevel: number;
   supplier: string;
 }
-
 interface OrderStatus {
   cancelled: number;
   completed: number;
@@ -113,6 +115,7 @@ interface OrderShowTable {
 }
 export type {
   AveragePrice,
+  CashAccount,
   CashAccountForm,
   Category,
   CategoryWiseStock,

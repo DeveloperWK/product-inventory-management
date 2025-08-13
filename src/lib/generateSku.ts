@@ -7,5 +7,4 @@ const generateSku = () => {
   }
   return result;
 };
-console.log(generateSku());
 export default generateSku;

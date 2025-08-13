@@ -13,7 +13,7 @@ const CreateOrder: React.FC = () => {
     handleSubmit,
     watch,
     setValue,
-    getValues,
+    reset,
     formState: { errors },
   } = useForm<OrderFormData>({
     defaultValues: {
@@ -27,7 +27,7 @@ const CreateOrder: React.FC = () => {
       recipient_phone: "",
       recipient_address: "",
       note: "",
-      invoice: "",
+      invoice: `INV-${Date.now().toString().slice(-5)}`,
       delivery_type: "",
     },
   });
@@ -51,7 +51,6 @@ const CreateOrder: React.FC = () => {
     trackingCode: "",
   });
   const { products } = useProduct();
-  console.log(products);
   const handleSuggestion = (searchTerm: string) => {
     return products?.filter(({ name }) =>
       name.toLowerCase().includes(searchTerm.toLowerCase()),
@@ -73,10 +72,6 @@ const CreateOrder: React.FC = () => {
     return () => document.removeEventListener("click", handleClickOutside);
   }, []);
   useEffect(() => {
-    const uniqueInvoice = `INV-${Date.now().toString().slice(0, 5)}`;
-    setValue("invoice", uniqueInvoice);
-  }, [setValue]);
-  useEffect(() => {
     const subscription = watch((value, { name }) => {
       if (!isTotalEditable && name?.startsWith("items")) {
         const items = value.items || [];
@@ -93,7 +88,6 @@ const CreateOrder: React.FC = () => {
 
   const onSubmit = useCallback(
     async (data: OrderFormData) => {
-      console.log("Submitted Data:", data);
       try {
         setIsLoading(true);
         const response = await fetch(`${import.meta.env.VITE_API_URI}orders`, {
@@ -111,17 +105,16 @@ const CreateOrder: React.FC = () => {
             trackingCode: result.trackingCode,
           });
         }
-        console.log("Order created:", result);
+        reset();
+        setValue("invoice", `INV-${Date.now().toString().slice(-5)}`);
       } catch (error) {
         console.error("Error creating order:", error);
         setIsError(true);
       } finally {
         setIsLoading(false);
       }
-      const raw = getValues();
-      console.log("Raw form values (via getValues):", raw);
     },
-    [getValues, setResponse, setIsLoading, setIsSuccess, setIsError],
+    [setResponse, setIsLoading, setIsSuccess, setIsError, reset, setValue],
   );
 
   return (
