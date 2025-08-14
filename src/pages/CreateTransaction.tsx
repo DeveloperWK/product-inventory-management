@@ -1,18 +1,7 @@
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import { CashAccount } from "../types/types";
+import { CashAccount, TransactionFormData } from "../types/types";
 
-type TransactionType = "income" | "expense" | "transfer";
-
-interface TransactionFormData {
-  type: TransactionType;
-  category: string;
-  amount: number;
-  paymentMethod: string;
-  cashAccount: string;
-  description?: string;
-  date: string;
-}
 const CreateTransaction = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -260,7 +249,27 @@ const CreateTransaction = () => {
             <p className="mt-1 text-sm text-red-600">{errors.date.message}</p>
           )}
         </div>
-
+        <div>
+          <label
+            htmlFor="transactionId"
+            className="block text-sm font-medium text-gray-700 mb-1"
+          >
+            Transaction ID:
+          </label>
+          <input
+            type="text"
+            id="transactionId"
+            {...register("transactionId", {
+              required: "Transaction ID is required",
+            })}
+            className="w-full p-2 border rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+          />
+          {errors.transactionId && (
+            <p className="mt-1 text-sm text-red-600">
+              {errors.transactionId.message}
+            </p>
+          )}
+        </div>
         {/* Description (optional) */}
         <div>
           <label

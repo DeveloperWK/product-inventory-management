@@ -8,6 +8,7 @@ const CreateCashAcc = () => {
     register,
     handleSubmit,
     formState: { errors },
+    reset,
   } = useForm<CashAccountForm>({
     defaultValues: {
       balance: 0,
@@ -28,6 +29,7 @@ const CreateCashAcc = () => {
         },
         body: JSON.stringify(data),
       });
+      reset();
     } catch (err) {
       console.error(err);
       setIsError(true);

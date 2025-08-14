@@ -76,6 +76,18 @@ interface OrderData {
   total: number;
 }
 
+type TransactionType = "income" | "expense" | "transfer";
+
+interface TransactionFormData {
+  type: TransactionType;
+  category: string;
+  amount: number;
+  paymentMethod: string;
+  cashAccount: string;
+  description?: string;
+  date: string;
+  transactionId?: string;
+}
 interface StatusConfig {
   [key: string]: {
     label: string;
@@ -125,4 +137,5 @@ export type {
   ProductCount,
   StatusConfig,
   Supplier,
+  TransactionFormData,
 };
