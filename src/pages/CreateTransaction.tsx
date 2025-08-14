@@ -36,6 +36,11 @@ const CreateTransaction = () => {
       try {
         const response = await fetch(
           `${import.meta.env.VITE_API_URI}cash-accounts`,
+          {
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem("token")}`,
+            },
+          },
         );
         const data = await response.json();
         setCashAccounts(data);
@@ -224,7 +229,7 @@ const CreateTransaction = () => {
             className="w-full p-2 border rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
           >
             <option disabled={true}>Select Cash Account</option>
-            {cashAccounts.map((account) => (
+            {cashAccounts?.map((account) => (
               <option key={account._id} value={account._id}>
                 {account.name}
               </option>

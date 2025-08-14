@@ -82,7 +82,6 @@ const OrderShow = () => {
   }, []);
 
   if (isLoading) return <div className="p-4">Orders Loading...</div>;
-
   return (
     <div className="max-w-6xl mx-auto p-4">
       <h1 className="text-2xl font-bold mb-6">Order List</h1>

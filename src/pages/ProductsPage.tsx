@@ -23,7 +23,6 @@ const ProductsPage = () => {
       </div>
 
       <ProductTable products={products} />
-     
     </div>
   );
 };
