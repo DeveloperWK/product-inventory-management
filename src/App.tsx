@@ -52,10 +52,7 @@ const App: React.FC = () => {
               </div>
               <div className="mt-6 pt-6 border-t border-gray-200">
                 <p className="text-sm text-gray-500 text-center">
-                  Don't have an account?{" "}
-                  <a href="/register" className="text-blue-500 hover:underline">
-                    Sign up
-                  </a>
+                  Don't have an account? Contact the admin for your credentials.
                 </p>
               </div>
             </div>
