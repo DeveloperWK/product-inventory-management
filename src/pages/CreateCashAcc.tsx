@@ -20,7 +20,7 @@ const CreateCashAcc = () => {
   const handleOnSubmit = async (data: CashAccountForm) => {
     try {
       setIsLoading(true);
-      await fetch(`${import.meta.env.VITE_API_URI}`, {
+      await fetch(`${import.meta.env.VITE_API_URI}cash-accounts`, {
         method: "POST",
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
