@@ -118,8 +118,14 @@ interface BusinessOrderForm {
   discount: number;
   quantity: number;
   date: string;
+  transactions: {
+    transactionId: string;
+  }[];
 }
-
+interface Transaction {
+  _id: string;
+  transactionId: string;
+}
 export type {
   BusinessOrderForm,
   CashAccount,
@@ -137,5 +143,6 @@ export type {
   ProductCount,
   StatusConfig,
   Supplier,
+  Transaction,
   TransactionFormData,
 };

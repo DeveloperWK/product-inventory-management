@@ -1,18 +1,33 @@
 import React, { useEffect, useState } from "react";
-import { useForm } from "react-hook-form";
-import { BusinessOrderForm, Supplier } from "../types/types";
+import { useFieldArray, useForm } from "react-hook-form";
+import TransactionSuggestion from "../components/TransactionSuggestion";
+import { BusinessOrderForm, Supplier, Transaction } from "../types/types";
 
 const CreateBusinessOrder: React.FC = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [suppliers, setSuppliers] = useState<Supplier[]>([]);
-
+  const [transactions, setTransactions] = useState<Transaction[]>([]);
+  const [showSuggestionsIndex, setShowSuggestionsIndex] = useState<
+    number | null
+  >(null);
+  const [searchTerms, setSearchTerms] = useState<string[]>([""]);
   const {
     register,
     handleSubmit,
     formState: { errors },
     reset,
-  } = useForm<BusinessOrderForm>();
+    control,
+    setValue,
+  } = useForm<BusinessOrderForm>({
+    defaultValues: {
+      transactions: [{ transactionId: "" }],
+    },
+  });
+  const { fields, append, remove } = useFieldArray({
+    control,
+    name: "transactions",
+  });
   useEffect(() => {
     const fetchSuppliers = async () => {
       try {
@@ -54,7 +69,32 @@ const CreateBusinessOrder: React.FC = () => {
 
     reset();
   };
+  useEffect(() => {
+    const fetchTransactions = async () => {
+      try {
+        const response = await fetch(
+          `${import.meta.env.VITE_API_URI}cash-transactions`,
+          {
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem("token")}`,
+            },
+          },
+        );
+        const data = await response.json();
+        setTransactions(data);
+      } catch (err) {
+        console.error(err);
+      }
+    };
 
+    fetchTransactions();
+  }, []);
+  const handleSuggestion = (searchTerm: string) => {
+    return transactions?.filter(({ transactionId }) =>
+      transactionId.toLowerCase().includes(searchTerm.toLowerCase()),
+    );
+  };
+  console.log("Transactions:", transactions);
   return (
     <div className="max-w-2xl mx-auto p-6 bg-white rounded-lg shadow-md">
       <h1 className="text-2xl font-bold mb-6 text-gray-800">
@@ -277,7 +317,19 @@ const CreateBusinessOrder: React.FC = () => {
             </p>
           )}
         </div>
-
+        <TransactionSuggestion
+          append={append}
+          errors={errors}
+          fields={fields}
+          handleSuggestion={handleSuggestion}
+          register={register}
+          remove={remove}
+          searchTerms={searchTerms}
+          setSearchTerms={setSearchTerms}
+          setShowSuggestionsIndex={setShowSuggestionsIndex}
+          setValue={setValue}
+          showSuggestionsIndex={showSuggestionsIndex}
+        />
         {/* Submit Button */}
         <div className="pt-4">
           <button
