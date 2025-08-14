@@ -21,12 +21,13 @@ const CreateBusinessOrder: React.FC = () => {
     setValue,
   } = useForm<BusinessOrderForm>({
     defaultValues: {
-      transactions: [{ transactionId: "" }],
+      relatedTransactions: [{ transactionId: "" }],
+      supplier: "Select a supplier",
     },
   });
-  const { fields, append, remove } = useFieldArray({
+  const { fields, append, remove } = useFieldArray<BusinessOrderForm>({
     control,
-    name: "transactions",
+    name: "relatedTransactions",
   });
   useEffect(() => {
     const fetchSuppliers = async () => {
@@ -89,6 +90,16 @@ const CreateBusinessOrder: React.FC = () => {
 
     fetchTransactions();
   }, []);
+  useEffect(() => {
+    const handleClickOutside = (e: MouseEvent) => {
+      const target = e.target as HTMLElement;
+      if (!target.closest(".suggestion-container")) {
+        setShowSuggestionsIndex(null);
+      }
+    };
+    document.addEventListener("click", handleClickOutside);
+    return () => document.removeEventListener("click", handleClickOutside);
+  }, []);
   const handleSuggestion = (searchTerm: string) => {
     return transactions?.filter(({ transactionId }) =>
       transactionId.toLowerCase().includes(searchTerm.toLowerCase()),
@@ -141,9 +152,7 @@ const CreateBusinessOrder: React.FC = () => {
                 : "border-gray-300 focus:ring-indigo-500 focus:border-indigo-500"
             }`}
           >
-            <option disabled selected>
-              Select a supplier
-            </option>
+            <option disabled>Select a supplier</option>
             {suppliers.map((supplier) => (
               <option key={supplier._id} value={supplier._id}>
                 {supplier.name}

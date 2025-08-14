@@ -44,6 +44,7 @@ const CreateTransaction = () => {
   const selectedType = watch("type");
 
   const onSubmit = async (data: TransactionFormData) => {
+    console.log(data);
     try {
       setIsLoading(true);
       await fetch(`${import.meta.env.VITE_API_URI}cash-transactions`, {

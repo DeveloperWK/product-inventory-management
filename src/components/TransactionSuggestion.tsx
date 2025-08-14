@@ -18,7 +18,7 @@ interface TransactionSuggestionProps {
   handleSuggestion: (value: string) => Transaction[];
   setValue: UseFormSetValue<BusinessOrderForm>;
   remove: UseFieldArrayRemove;
-  append: UseFieldArrayAppend<BusinessOrderForm, "transactions">;
+  append: UseFieldArrayAppend<BusinessOrderForm, "relatedTransactions">;
   errors: FieldErrors<BusinessOrderForm>;
 }
 const TransactionSuggestion = ({
@@ -45,8 +45,8 @@ const TransactionSuggestion = ({
               <div className="sm:col-span-5 relative suggestion-container">
                 <input
                   type="text"
-                  placeholder="Product ID"
-                  {...register(`transactions.${index}.transactionId`, {
+                  placeholder="Transaction ID"
+                  {...register(`relatedTransactions.${index}.transactionId`, {
                     required: "Transaction ID is required",
                     onChange: (e) => {
                       const value = e.target.value;
@@ -71,12 +71,12 @@ const TransactionSuggestion = ({
                           className="p-2 hover:bg-gray-100 cursor-pointer"
                           onClick={() => {
                             setValue(
-                              `transactions.${index}.transactionId`,
-                              suggestion._id!,
+                              `relatedTransactions.${index}.transactionId`,
+                              suggestion._id,
                             );
                             setSearchTerms((prev) => {
                               const updated = [...prev];
-                              updated[index] = suggestion._id!;
+                              updated[index] = suggestion._id;
                               return updated;
                             });
                             setShowSuggestionsIndex(null);
@@ -104,7 +104,7 @@ const TransactionSuggestion = ({
 
             {/* Field-level errors */}
             <div className="text-sm text-red-500">
-              {errors.transactions?.[index]?.transactionId?.message}
+              {errors.relatedTransactions?.[index]?.message}
             </div>
           </div>
         ))}

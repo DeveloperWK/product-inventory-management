@@ -109,6 +109,11 @@ interface OrderShowTable {
   trackingCode: string;
   updatedAt: string;
 }
+
+interface Transaction {
+  _id: string;
+  transactionId: string;
+}
 interface BusinessOrderForm {
   name: string;
   supplier: string;
@@ -118,13 +123,9 @@ interface BusinessOrderForm {
   discount: number;
   quantity: number;
   date: string;
-  transactions: {
+  relatedTransactions: {
     transactionId: string;
   }[];
-}
-interface Transaction {
-  _id: string;
-  transactionId: string;
 }
 export type {
   BusinessOrderForm,
