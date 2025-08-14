@@ -46,7 +46,7 @@ const CreateBusinessOrder: React.FC = () => {
       setError("Failed to create business order");
     }
 
-    reset(); // Reset form after successful submission
+    reset();
   };
 
   return (
@@ -95,7 +95,9 @@ const CreateBusinessOrder: React.FC = () => {
                 : "border-gray-300 focus:ring-indigo-500 focus:border-indigo-500"
             }`}
           >
-            <option disabled>Select a supplier</option>
+            <option disabled selected>
+              Select a supplier
+            </option>
             {suppliers.map((supplier) => (
               <option key={supplier._id} value={supplier._id}>
                 {supplier.name}
