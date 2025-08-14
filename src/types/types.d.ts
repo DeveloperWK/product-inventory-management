@@ -111,7 +111,7 @@ interface OrderShowTable {
 }
 interface BusinessOrderForm {
   name: string;
-  supplierId: string;
+  supplier: string;
   due: number;
   payment: number;
   total: number;
