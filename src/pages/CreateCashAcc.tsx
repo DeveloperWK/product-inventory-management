@@ -23,6 +23,7 @@ const CreateCashAcc = () => {
       await fetch(`${import.meta.env.VITE_API_URI}`, {
         method: "POST",
         headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
           "Content-Type": "application/json",
         },
         body: JSON.stringify(data),

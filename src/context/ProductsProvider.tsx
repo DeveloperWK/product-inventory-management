@@ -52,11 +52,7 @@ export const ProductsProvider = ({ children }: ProductsProviderProps) => {
   const getCategory = async () => {
     try {
       setProductsLoading(true);
-      const res = await fetch(`${import.meta.env.VITE_API_URI}categories`, {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-        },
-      });
+      const res = await fetch(`${import.meta.env.VITE_API_URI}categories`);
       const data = await res.json();
       setCategories(data?.data);
       setProductsLoading(false);

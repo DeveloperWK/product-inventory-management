@@ -14,7 +14,11 @@ const OrderShow = () => {
   const fetchOrders = async () => {
     try {
       setIsLoading(true);
-      const res = await fetch(`${import.meta.env.VITE_API_URI}orders`);
+      const res = await fetch(`${import.meta.env.VITE_API_URI}orders`, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      });
       const data = await res.json();
       if (res.ok) setOrders(data);
     } catch (err) {
@@ -31,7 +35,10 @@ const OrderShow = () => {
         `${import.meta.env.VITE_API_URI}orders/${orderId}`,
         {
           method: "PATCH",
-          headers: { "Content-Type": "application/json" },
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+            "Content-Type": "application/json",
+          },
           body: JSON.stringify({
             status: tempStatus,
             paymentStatus: tempPaymentStatus,

@@ -18,6 +18,11 @@ const CreateBusinessOrder: React.FC = () => {
       try {
         const response = await fetch(
           `${import.meta.env.VITE_API_URI}suppliers`,
+          {
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem("token")}`,
+            },
+          },
         );
         const data = await response.json();
         setSuppliers(data);
@@ -34,6 +39,7 @@ const CreateBusinessOrder: React.FC = () => {
       await fetch(`${import.meta.env.VITE_API_URI}b2b-orders`, {
         method: "POST",
         headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
           "Content-Type": "application/json",
         },
         body: JSON.stringify(data),

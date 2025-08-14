@@ -22,7 +22,10 @@ const RegistrationForm = () => {
     try {
       const res = await fetch(`${import.meta.env.VITE_API_URI}users/register`, {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+          "Content-Type": "application/json",
+        },
         body: JSON.stringify(data),
       });
       if (!res.ok) {

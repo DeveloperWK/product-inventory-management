@@ -93,6 +93,7 @@ const CreateOrder: React.FC = () => {
         const response = await fetch(`${import.meta.env.VITE_API_URI}orders`, {
           method: "POST",
           headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
             "Content-Type": "application/json",
           },
           body: JSON.stringify(data),
