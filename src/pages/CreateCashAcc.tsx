@@ -13,6 +13,7 @@ const CreateCashAcc = () => {
       balance: 0,
       name: "",
       type: "",
+      institution: "",
     },
   });
 
@@ -57,6 +58,25 @@ const CreateCashAcc = () => {
           />
           {errors.name && (
             <p className="text-sm text-red-600">{errors.name.message}</p>
+          )}
+        </div>
+        <div className="space-y-2">
+          <label
+            htmlFor="institution"
+            className="block text-sm font-medium text-gray-700"
+          >
+            Institution
+          </label>
+          <input
+            id="institution"
+            type="text"
+            {...register("institution", {
+              required: "Institution is required",
+            })}
+            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+          />
+          {errors.institution && (
+            <p className="text-sm text-red-600">{errors.institution.message}</p>
           )}
         </div>
 

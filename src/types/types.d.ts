@@ -1,3 +1,12 @@
+// interface CashAccount {
+//   name: string;
+//   type: "bank" | "cash" | "mobile";
+//   balance: number;
+//   currency: string;
+//   accountNumber?: string;
+//   institution?: string;
+// }
+
 interface Product extends ProductForm {
   _id?: string;
 }
@@ -37,9 +46,12 @@ interface CashAccountForm {
   type: string;
   name: string;
   balance?: number;
+  institution: string;
 }
 interface CashAccount extends CashAccountForm {
   _id: string;
+  currency: string;
+  accountNumber: string;
 }
 interface ProductForm {
   name: string;
@@ -98,6 +110,7 @@ interface BusinessOrderForm {
 
 export type {
   BusinessOrderForm,
+  CashAccount,
   CashAccount,
   CashAccountForm,
   Category,

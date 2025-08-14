@@ -2,6 +2,7 @@ import { createBrowserRouter } from "react-router";
 import App from "../App";
 import RoleProtectedRoute from "../components/RoleProtectedRoute";
 import Unauthorized from "../components/Unauthorized";
+import CashAcc from "../pages/CashAcc";
 import Categories from "../pages/Categories";
 import CreateBusinessOrder from "../pages/CreateBusinessOrder";
 import CreateCashAcc from "../pages/CreateCashAcc";
@@ -104,6 +105,14 @@ const router = createBrowserRouter([
         element: (
           <RoleProtectedRoute requiredRole="admin">
             <CreateBusinessOrder />
+          </RoleProtectedRoute>
+        ),
+      },
+      {
+        path: "/cash-account",
+        element: (
+          <RoleProtectedRoute requiredRole="admin">
+            <CashAcc />
           </RoleProtectedRoute>
         ),
       },
