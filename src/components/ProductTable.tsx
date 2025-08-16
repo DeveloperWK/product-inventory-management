@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { useProduct } from "../hooks/useProduct";
 import { Product } from "../types/types";
 import ActionButtons from "./ui/ActionButtons";
@@ -7,11 +8,64 @@ interface ProductTableProps {
 }
 
 const ProductTable = ({ products }: ProductTableProps) => {
-  const { deleteProduct } = useProduct();
+  const { deleteProduct, setProducts } = useProduct();
   const { categories } = useProduct();
-
-  const handleEdit = (id: string) => {
-    console.log("Edit button clicked", id);
+  const [productEdited, setProductEdited] = useState<Product | null>(null);
+  const [tempState, setTempState] = useState<{
+    price: number;
+    stock: number;
+  }>({
+    price: 0,
+    stock: 0,
+  });
+  const handleUpdate = async (productId: string) => {
+    try {
+      const res = await fetch(
+        `${import.meta.env.VITE_API_URI}products/${productId}`,
+        {
+          method: "PATCH",
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            price: tempState.price,
+            stock: tempState.stock,
+          }),
+        },
+      );
+      if (res.ok) {
+        setProducts(
+          (products || [])?.map((product) =>
+            product._id === productId
+              ? {
+                  ...product,
+                  price: tempState.price,
+                  stock: tempState.stock,
+                }
+              : product,
+          ),
+        );
+        setProductEdited(null);
+      }
+    } catch (err) {
+      console.error(err);
+    }
+  };
+  const handleEditClick = (id: string) => {
+    const foundProduct = products?.find((product) => product._id === id);
+    setProductEdited((foundProduct as Product) || null);
+    setTempState({
+      price: Number(foundProduct?.price),
+      stock: Number(foundProduct?.stock),
+    });
+  };
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setTempState({
+      ...tempState,
+      [name]: Number(value),
+    });
   };
 
   return (
@@ -50,17 +104,60 @@ const ProductTable = ({ products }: ProductTableProps) => {
                   {categories.find((c) => c._id === product.category)?.name ||
                     "N/A"}
                 </td>
-                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-white">
-                  ৳ {product.price.toFixed(2)}
-                </td>
-                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">
-                  {product.stock}
-                </td>
+                {productEdited?._id === product._id ? (
+                  <>
+                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-white">
+                      <input
+                        type="number"
+                        name="price"
+                        value={tempState.price}
+                        onChange={(e) => handleChange(e)}
+                        className="border border-gray-300 rounded-md px-2 py-1"
+                      />
+                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-white">
+                      <input
+                        type="number"
+                        name="stock"
+                        value={tempState.stock}
+                        onChange={(e) => handleChange(e)}
+                        className="border border-gray-300 rounded-md px-2 py-1"
+                      />
+                    </td>
+                  </>
+                ) : (
+                  <>
+                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-white">
+                      ৳ {product.price.toFixed(2)}
+                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">
+                      {product.stock}
+                    </td>
+                  </>
+                )}
+
                 <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400 flex space-x-2">
-                  <ActionButtons
-                    onDelete={() => deleteProduct(product._id!)}
-                    onEdit={() => handleEdit(product._id!)}
-                  />
+                  {productEdited?._id === product._id ? (
+                    <>
+                      <button
+                        onClick={() => handleUpdate(product._id!)}
+                        className="px-4 py-2 bg-indigo-600 text-white font-medium rounded-lg hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition-all duration-200 shadow-sm"
+                      >
+                        Update
+                      </button>
+                      <button
+                        onClick={() => setProductEdited(null)}
+                        className="px-4 py-2 bg-white text-gray-700 font-medium rounded-lg border border-gray-300 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2 transition-all duration-200 shadow-sm ml-2"
+                      >
+                        Cancel
+                      </button>
+                    </>
+                  ) : (
+                    <ActionButtons
+                      onDelete={() => deleteProduct(product._id!)}
+                      onEdit={() => handleEditClick(product._id!)}
+                    />
+                  )}
                 </td>
               </tr>
             ))}
@@ -101,7 +198,7 @@ const ProductTable = ({ products }: ProductTableProps) => {
             <div className="flex space-x-2 mt-2">
               <ActionButtons
                 onDelete={() => deleteProduct(product._id!)}
-                onEdit={() => handleEdit(product._id!)}
+                onEdit={() => handleEditClick(product._id!)}
               />
             </div>
           </div>

@@ -125,7 +125,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen = true, onClose }) => {
               onClick={onClose}
               className="flex items-center p-4 hover:bg-gray-700"
             >
-              💸 <span className="ml-3">Create Account</span>
+              🏛️ <span className="ml-3">Create Account</span>
             </Link>
           </li>
           <li>
@@ -134,7 +134,16 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen = true, onClose }) => {
               onClick={onClose}
               className="flex items-center p-4 hover:bg-gray-700"
             >
-              💸 <span className="ml-3">Make Transaction</span>
+              💵 <span className="ml-3">Make Transaction</span>
+            </Link>
+          </li>
+          <li>
+            <Link
+              to={"/cash-account"}
+              onClick={onClose}
+              className="flex items-center p-4 hover:bg-gray-700"
+            >
+              🏦 <span className="ml-3">Cash Account</span>
             </Link>
           </li>
           {!isAuthenticated && (

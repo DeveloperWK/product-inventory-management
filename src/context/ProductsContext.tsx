@@ -1,4 +1,4 @@
-import { createContext } from "react";
+import { createContext, Dispatch, SetStateAction } from "react";
 import { Category, Product } from "../types/types";
 
 interface ProductsContextType {
@@ -7,6 +7,7 @@ interface ProductsContextType {
   productsLoading: boolean;
   categories: Category[];
   deleteProduct: (id: string) => Promise<void>;
+  setProducts: Dispatch<SetStateAction<Product[] | []>>;
 }
 
 const ProductsContext = createContext<ProductsContextType | undefined>(

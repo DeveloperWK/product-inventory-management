@@ -94,6 +94,7 @@ export const ProductsProvider = ({ children }: ProductsProviderProps) => {
     createProduct,
     categories,
     deleteProduct,
+    setProducts,
   };
   return (
     <ProductsContext.Provider value={value}>

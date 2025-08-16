@@ -42,7 +42,7 @@ const CashAccountShowcase: React.FC<CashAccountShowcaseProps> = ({
   };
 
   return (
-    <div className="max-w-md rounded-lg border border-gray-200 bg-white p-6 shadow-md">
+    <div className="max-w-md rounded-lg border border-gray-200 bg-white p-6 shadow-md ">
       {/* Header Section */}
       <div className="mb-6 flex items-center border-b border-gray-100 pb-4">
         <div className="mr-4 text-3xl">{getTypeDisplay(account.type)}</div>

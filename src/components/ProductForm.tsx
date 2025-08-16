@@ -1,4 +1,3 @@
-// src/components/ProductForm.tsx
 import { useState } from "react";
 
 interface Product {

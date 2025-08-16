@@ -45,7 +45,7 @@ interface OrderFormData {
 interface CashAccountForm {
   type: string;
   name: string;
-  balance?: number;
+  balance: number;
   institution: string;
 }
 interface CashAccount extends CashAccountForm {
