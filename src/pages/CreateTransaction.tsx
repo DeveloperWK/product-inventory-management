@@ -195,6 +195,8 @@ const CreateTransaction = () => {
             <option value="Debit Card" />
             <option value="Bank Transfer" />
             <option value="Digital Wallet" />
+            <option value="Bkash" />
+            <option value="Nagad" />
           </datalist>
           {errors.paymentMethod && (
             <p className="mt-1 text-sm text-red-600">
