@@ -112,6 +112,15 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen = true, onClose }) => {
           </li>
           <li>
             <Link
+              to={"/create-supplier"}
+              onClick={onClose}
+              className="flex items-center p-4 hover:bg-gray-700"
+            >
+              🛒 <span className="ml-3">Create B2B Supplier</span>
+            </Link>
+          </li>
+          <li>
+            <Link
               to={"/create-b2b-order"}
               onClick={onClose}
               className="flex items-center p-4 hover:bg-gray-700"
@@ -130,11 +139,20 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen = true, onClose }) => {
           </li>
           <li>
             <Link
-              to={"/make-transaction"}
+              to={"/create-transaction"}
               onClick={onClose}
               className="flex items-center p-4 hover:bg-gray-700"
             >
-              💵 <span className="ml-3">Make Transaction</span>
+              💵 <span className="ml-3">Create Transaction</span>
+            </Link>
+          </li>
+          <li>
+            <Link
+              to={"/transactions"}
+              onClick={onClose}
+              className="flex items-center p-4 hover:bg-gray-700"
+            >
+              💵 <span className="ml-3">View Transactions</span>
             </Link>
           </li>
           <li>

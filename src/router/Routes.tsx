@@ -14,6 +14,8 @@ import LoginForm from "../pages/LoginForm";
 import OrderShow from "../pages/OrderShow";
 import ProductsPage from "../pages/ProductsPage";
 import RegistrationForm from "../pages/RegistrationForm";
+import CreateSupplier from "../pages/CreateSupplier";
+import ShowTransaction from "../pages/ShowTransaction";
 
 const router = createBrowserRouter([
   {
@@ -93,7 +95,7 @@ const router = createBrowserRouter([
         ),
       },
       {
-        path: "/make-transaction",
+        path: "/create-transaction",
         element: (
           <RoleProtectedRoute requiredRole="admin">
             <CreateTransaction />
@@ -113,6 +115,22 @@ const router = createBrowserRouter([
         element: (
           <RoleProtectedRoute requiredRole="admin">
             <CashAcc />
+          </RoleProtectedRoute>
+        ),
+      },
+      {
+        path: "/create-supplier",
+        element: (
+          <RoleProtectedRoute requiredRole="admin">
+            <CreateSupplier />
+          </RoleProtectedRoute>
+        ),
+      },
+      {
+        path: "/transactions",
+        element: (
+          <RoleProtectedRoute requiredRole="admin">
+            <ShowTransaction />
           </RoleProtectedRoute>
         ),
       },
