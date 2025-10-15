@@ -37,6 +37,7 @@ const TransactionList: React.FC<TransactionListProps> = ({ transactions }) => {
               <th className="text-left p-3">Payment</th>
               <th className="text-left p-3">Date</th>
               <th className="text-left p-3">Cash Account</th>
+              <th className="text-left p-3">TransactionId</th>
               <th className="text-left p-3">Recurring</th>
             </tr>
           </thead>
@@ -71,6 +72,15 @@ const TransactionList: React.FC<TransactionListProps> = ({ transactions }) => {
                   {tx.cashAccount ? (
                     <span className="text-green-600 font-medium">
                       {tx.cashAccount.name}
+                    </span>
+                  ) : (
+                    <span className="text-gray-500">N/A</span>
+                  )}
+                </td>
+                <td className="p-3">
+                  {tx.transactionId ? (
+                    <span className="text-blue-600 font-medium">
+                      {tx.transactionId}
                     </span>
                   ) : (
                     <span className="text-gray-500">N/A</span>
@@ -128,6 +138,15 @@ const TransactionList: React.FC<TransactionListProps> = ({ transactions }) => {
             ) : (
               <span className="text-gray-500">N/A</span>
             )}
+            <p>
+              {tx.transactionId ? (
+                <span className="text-blue-600 font-medium">
+                  {tx.transactionId}
+                </span>
+              ) : (
+                <span className="text-gray-500">N/A</span>
+              )}
+            </p>
             <p className="text-gray-700 text-sm mb-1">
               <strong>Recurring:</strong> {tx.isRecurring ? "Yes" : "No"}
             </p>
