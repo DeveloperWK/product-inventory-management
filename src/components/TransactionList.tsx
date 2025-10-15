@@ -53,8 +53,8 @@ const TransactionList: React.FC<TransactionListProps> = ({ transactions }) => {
                       tx.type === "income"
                         ? "bg-green-100 text-green-700"
                         : tx.type === "expense"
-                          ? "bg-red-100 text-red-700"
-                          : "bg-blue-100 text-blue-700"
+                        ? "bg-red-100 text-red-700"
+                        : "bg-blue-100 text-blue-700"
                     }`}
                   >
                     {tx.type}
@@ -62,7 +62,7 @@ const TransactionList: React.FC<TransactionListProps> = ({ transactions }) => {
                 </td>
                 <td className="p-3">{tx.category}</td>
                 <td className="p-3 text-right font-semibold">
-                  {tx.type === "expense" ? "-" : "+"}Tk{tx.amount.toFixed(2)}
+                  {tx.type === "expense" ? "-" : "+"}৳{tx.amount.toFixed(2)}
                 </td>
                 <td className="p-3">{tx.paymentMethod || "N/A"}</td>
                 <td className="p-3 text-sm text-gray-600">
@@ -79,7 +79,7 @@ const TransactionList: React.FC<TransactionListProps> = ({ transactions }) => {
                 </td>
                 <td className="p-3">
                   {tx.transactionId ? (
-                    <span className="text-blue-600 font-medium">
+                    <span className="text-blue-600 font-medium text-sm">
                       {tx.transactionId}
                     </span>
                   ) : (
@@ -112,14 +112,14 @@ const TransactionList: React.FC<TransactionListProps> = ({ transactions }) => {
                   tx.type === "income"
                     ? "bg-green-100 text-green-700"
                     : tx.type === "expense"
-                      ? "bg-red-100 text-red-700"
-                      : "bg-blue-100 text-blue-700"
+                    ? "bg-red-100 text-red-700"
+                    : "bg-blue-100 text-blue-700"
                 }`}
               >
                 {tx.type}
               </span>
               <span className="text-lg font-bold">
-                {tx.type === "expense" ? "-" : "+"}Tk{tx.amount.toFixed(2)}
+                {tx.type === "expense" ? "-" : "+"}৳{tx.amount.toFixed(2)}
               </span>
             </div>
             <p className="text-gray-700 text-sm mb-1">
@@ -140,7 +140,7 @@ const TransactionList: React.FC<TransactionListProps> = ({ transactions }) => {
             )}
             <p>
               {tx.transactionId ? (
-                <span className="text-blue-600 font-medium">
+                <span className="text-blue-600 font-medium text-xs">
                   {tx.transactionId}
                 </span>
               ) : (
