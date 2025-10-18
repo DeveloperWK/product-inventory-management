@@ -8,13 +8,14 @@ import CreateBusinessOrder from "../pages/CreateBusinessOrder";
 import CreateCashAcc from "../pages/CreateCashAcc";
 import CreateOrder from "../pages/CreateOrder";
 import CreateProduct from "../pages/CreateProduct";
+import CreateSupplier from "../pages/CreateSupplier";
 import CreateTransaction from "../pages/CreateTransaction";
 import Dashboard from "../pages/Dashboard";
 import LoginForm from "../pages/LoginForm";
 import OrderShow from "../pages/OrderShow";
 import ProductsPage from "../pages/ProductsPage";
 import RegistrationForm from "../pages/RegistrationForm";
-import CreateSupplier from "../pages/CreateSupplier";
+import ShowTrackingStatus from "../pages/ShowTrackingStatus";
 import ShowTransaction from "../pages/ShowTransaction";
 
 const router = createBrowserRouter([
@@ -131,6 +132,14 @@ const router = createBrowserRouter([
         element: (
           <RoleProtectedRoute requiredRole="admin">
             <ShowTransaction />
+          </RoleProtectedRoute>
+        ),
+      },
+      {
+        path: "/track/:trackingCode",
+        element: (
+          <RoleProtectedRoute requiredRole="admin">
+            <ShowTrackingStatus />
           </RoleProtectedRoute>
         ),
       },

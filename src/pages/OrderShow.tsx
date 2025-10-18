@@ -1,6 +1,7 @@
+import { MapPin } from "lucide-react";
 import { useEffect, useState } from "react";
+import { Link } from "react-router";
 import { OrderShowTable } from "../types/types";
-
 const OrderShow = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [orders, setOrders] = useState<OrderShowTable[]>([]);
@@ -43,7 +44,7 @@ const OrderShow = () => {
             status: tempStatus,
             paymentStatus: tempPaymentStatus,
           }),
-        },
+        }
       );
       if (res.ok) {
         setOrders(
@@ -54,8 +55,8 @@ const OrderShow = () => {
                   status: tempStatus,
                   paymentStatus: tempPaymentStatus,
                 }
-              : order,
-          ),
+              : order
+          )
         );
         setEditingOrderId(null);
       }
@@ -102,6 +103,7 @@ const OrderShow = () => {
                   "Tracking",
                   "Updated",
                   "Actions",
+                  "Track",
                 ].map((col) => (
                   <th
                     key={col}
@@ -134,7 +136,7 @@ const OrderShow = () => {
                         value={tempStatus}
                         onChange={(e) =>
                           setTempStatus(
-                            e.target.value as OrderShowTable["status"],
+                            e.target.value as OrderShowTable["status"]
                           )
                         }
                         className="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 text-sm"
@@ -163,7 +165,7 @@ const OrderShow = () => {
                         value={tempPaymentStatus}
                         onChange={(e) =>
                           setTempPaymentStatus(
-                            e.target.value as OrderShowTable["paymentStatus"],
+                            e.target.value as OrderShowTable["paymentStatus"]
                           )
                         }
                         className="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 text-sm"
@@ -214,6 +216,15 @@ const OrderShow = () => {
                         Edit
                       </button>
                     )}
+                  </td>
+                  <td className="px-4 py-3 whitespace-nowrap text-sm text-gray-500 font-mono">
+                    <Link
+                      to={`/track/${order.trackingCode}`}
+                      className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-blue-600 text-white text-sm font-medium rounded-md hover:bg-blue-700 transition-colors duration-200"
+                    >
+                      <MapPin className="w-4 h-4" />
+                      Track
+                    </Link>
                   </td>
                 </tr>
               ))}
@@ -277,7 +288,7 @@ const OrderShow = () => {
                     value={tempPaymentStatus}
                     onChange={(e) =>
                       setTempPaymentStatus(
-                        e.target.value as OrderShowTable["paymentStatus"],
+                        e.target.value as OrderShowTable["paymentStatus"]
                       )
                     }
                     className="block w-full rounded-md border-gray-300 shadow-sm text-sm"
@@ -302,6 +313,7 @@ const OrderShow = () => {
                 <span className="font-semibold">Tracking:</span>
                 <span className="font-mono">{order.trackingCode}</span>
               </div>
+
               <div className="flex justify-between text-sm">
                 <span className="font-semibold">Updated:</span>
                 <span>{formatDate(order.updatedAt)}</span>
@@ -331,6 +343,15 @@ const OrderShow = () => {
                     Edit
                   </button>
                 )}
+              </div>
+              <div className="flex justify-between text-sm">
+                <Link
+                  to={`/track/${order.trackingCode}`}
+                  className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-blue-600 text-white text-sm font-medium rounded-md hover:bg-blue-700 transition-colors duration-200"
+                >
+                  <MapPin className="w-4 h-4" />
+                  Track
+                </Link>
               </div>
             </div>
           ))}
