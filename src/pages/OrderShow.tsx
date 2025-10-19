@@ -72,7 +72,6 @@ const OrderShow = () => {
     setTempStatus(order.status);
     setTempPaymentStatus(order.paymentStatus);
   };
-
   const handleCancelClick = () => setEditingOrderId(null);
 
   const formatDate = (dateString: string) =>

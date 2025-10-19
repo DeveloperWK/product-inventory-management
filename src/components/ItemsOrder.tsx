@@ -81,7 +81,7 @@ const ItemsOrder = ({
                         >
                           {suggestion.name}
                         </div>
-                      ),
+                      )
                     )}
                   </div>
                 )}
@@ -155,5 +155,4 @@ const ItemsOrder = ({
     </>
   );
 };
-
 export default ItemsOrder;

@@ -20,6 +20,7 @@ const CreateOrder: React.FC = () => {
       orderType: "purchase",
       items: [{ product: "", quantity: 1, unitPrice: 0 }],
       totalAmount: 0,
+      deliveryCharge: 0,
       status: "processing",
       paymentStatus: "pending",
       transaction: "",
@@ -53,7 +54,7 @@ const CreateOrder: React.FC = () => {
   const { products } = useProduct();
   const handleSuggestion = (searchTerm: string) => {
     return products?.filter(({ name }) =>
-      name.toLowerCase().includes(searchTerm.toLowerCase()),
+      name.toLowerCase().includes(searchTerm.toLowerCase())
     );
   };
 
@@ -75,17 +76,17 @@ const CreateOrder: React.FC = () => {
     const subscription = watch((value, { name }) => {
       if (!isTotalEditable && name?.startsWith("items")) {
         const items = value.items || [];
-        const total = items.reduce(
+        const itemTotal = items.reduce(
           (sum, item) => sum + (item?.quantity || 0) * (item?.unitPrice || 0),
-          0,
+          0
         );
-        setValue("totalAmount", total);
+        setValue("totalAmount", itemTotal);
       }
     });
 
     return () => subscription.unsubscribe();
   }, [watch, isTotalEditable, setValue]);
-
+  console.log();
   const onSubmit = useCallback(
     async (data: OrderFormData) => {
       try {
@@ -115,7 +116,7 @@ const CreateOrder: React.FC = () => {
         setIsLoading(false);
       }
     },
-    [setResponse, setIsLoading, setIsSuccess, setIsError, reset, setValue],
+    [setResponse, setIsLoading, setIsSuccess, setIsError, reset, setValue]
   );
 
   return (
@@ -151,6 +152,33 @@ const CreateOrder: React.FC = () => {
           showSuggestionsIndex={showSuggestionsIndex}
         />
         <div>
+          <div>
+            <label className="block font-semibold mb-1">Delivery Charge</label>
+            <input
+              type="number"
+              {...register("deliveryCharge", {
+                required: "Delivery charge is required",
+                valueAsNumber: true,
+                onChange: (e) => {
+                  const items = watch("items") || [];
+                  const itemTotal = items.reduce(
+                    (sum, item) =>
+                      sum + (item.quantity || 0) * (item.unitPrice || 0),
+                    0
+                  );
+                  const charge = parseFloat(e.target.value) || 0;
+                  if (!isTotalEditable)
+                    setValue("totalAmount", itemTotal + charge);
+                },
+              })}
+              className="w-full p-2 border rounded"
+            />
+            {errors.deliveryCharge && (
+              <p className="text-red-500 text-sm">
+                {errors.deliveryCharge.message}
+              </p>
+            )}
+          </div>
           <div className="flex items-center justify-between mb-1">
             <label className="font-semibold">Total Amount</label>
             <label className="text-sm flex items-center gap-2">
