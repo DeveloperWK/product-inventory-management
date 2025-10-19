@@ -1,4 +1,4 @@
-import { MapPin } from "lucide-react";
+import { ReceiptText } from "lucide-react";
 import { useEffect, useState } from "react";
 import { Link } from "react-router";
 import { OrderShowTable } from "../types/types";
@@ -218,11 +218,11 @@ const OrderShow = () => {
                   </td>
                   <td className="px-4 py-3 whitespace-nowrap text-sm text-gray-500 font-mono">
                     <Link
-                      to={`/track/${order.trackingCode}`}
+                      to={`/order/${order._id}`}
                       className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-blue-600 text-white text-sm font-medium rounded-md hover:bg-blue-700 transition-colors duration-200"
                     >
-                      <MapPin className="w-4 h-4" />
-                      Track
+                      <ReceiptText className="w-4 h-4" />
+                      Get Details
                     </Link>
                   </td>
                 </tr>
@@ -345,11 +345,11 @@ const OrderShow = () => {
               </div>
               <div className="flex justify-between text-sm">
                 <Link
-                  to={`/track/${order.trackingCode}`}
+                  to={`/order/${order._id}`}
                   className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-blue-600 text-white text-sm font-medium rounded-md hover:bg-blue-700 transition-colors duration-200"
                 >
-                  <MapPin className="w-4 h-4" />
-                  Track
+                  <ReceiptText className="w-4 h-4" />
+                  Get Details
                 </Link>
               </div>
             </div>

@@ -11,11 +11,11 @@ import CreateProduct from "../pages/CreateProduct";
 import CreateSupplier from "../pages/CreateSupplier";
 import CreateTransaction from "../pages/CreateTransaction";
 import Dashboard from "../pages/Dashboard";
+import GetOrderDetails from "../pages/GetOrderDeatils";
 import LoginForm from "../pages/LoginForm";
 import OrderShow from "../pages/OrderShow";
 import ProductsPage from "../pages/ProductsPage";
 import RegistrationForm from "../pages/RegistrationForm";
-import ShowTrackingStatus from "../pages/ShowTrackingStatus";
 import ShowTransaction from "../pages/ShowTransaction";
 
 const router = createBrowserRouter([
@@ -135,11 +135,12 @@ const router = createBrowserRouter([
           </RoleProtectedRoute>
         ),
       },
+
       {
-        path: "/track/:trackingCode",
+        path: "/order/:orderId",
         element: (
           <RoleProtectedRoute requiredRole="admin">
-            <ShowTrackingStatus />
+            <GetOrderDetails />
           </RoleProtectedRoute>
         ),
       },
