@@ -13,11 +13,9 @@ const ShowTransaction = () => {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`,
           },
-        },
+        }
       );
       const data = await res.json();
-
-      console.log("res.ok:", res.ok, "status:", res.status);
 
       if (res.ok) setTransactions(data);
     } catch (err) {
@@ -29,7 +27,7 @@ const ShowTransaction = () => {
   useEffect(() => {
     fetchTransactions();
   }, []);
-  console.log(transactions);
+
   return (
     <>
       {!isLoading && <TransactionList transactions={transactions} />}

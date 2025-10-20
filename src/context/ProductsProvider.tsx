@@ -1,4 +1,5 @@
 import { ReactNode, useEffect, useState } from "react";
+import { useAuth } from "../hooks/useAuth";
 import { Category, Product } from "../types/types";
 import ProductsContext from "./ProductsContext";
 
@@ -10,6 +11,7 @@ export const ProductsProvider = ({ children }: ProductsProviderProps) => {
   const [products, setProducts] = useState<Product[] | []>([]);
   const [productsLoading, setProductsLoading] = useState<boolean>(false);
   const [categories, setCategories] = useState<Category[]>([]);
+  const { isAuthenticated } = useAuth();
 
   const getProducts = async () => {
     try {
@@ -85,9 +87,11 @@ export const ProductsProvider = ({ children }: ProductsProviderProps) => {
     }
   };
   useEffect(() => {
-    getProducts();
-    getCategory();
-  }, []);
+    if (isAuthenticated) {
+      getProducts();
+      getCategory();
+    }
+  }, [isAuthenticated]);
   const value = {
     products,
     productsLoading,

@@ -34,7 +34,6 @@ interface OrderFormData {
   totalAmount: number;
   status: string;
   paymentStatus: PaymentStatus;
-  transaction?: string;
   recipient_name: string;
   recipient_phone: string;
   recipient_address: string;

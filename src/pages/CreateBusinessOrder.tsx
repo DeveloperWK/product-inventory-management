@@ -38,7 +38,7 @@ const CreateBusinessOrder: React.FC = () => {
             headers: {
               Authorization: `Bearer ${localStorage.getItem("token")}`,
             },
-          },
+          }
         );
         const data = await response.json();
         setSuppliers(data);
@@ -49,7 +49,6 @@ const CreateBusinessOrder: React.FC = () => {
     fetchSuppliers();
   }, []);
   const onSubmit = async (data: BusinessOrderForm) => {
-    console.log(data);
     try {
       setIsLoading(true);
       await fetch(`${import.meta.env.VITE_API_URI}b2b-orders`, {
@@ -79,7 +78,7 @@ const CreateBusinessOrder: React.FC = () => {
             headers: {
               Authorization: `Bearer ${localStorage.getItem("token")}`,
             },
-          },
+          }
         );
         const data = await response.json();
         setTransactions(data);
@@ -102,10 +101,10 @@ const CreateBusinessOrder: React.FC = () => {
   }, []);
   const handleSuggestion = (searchTerm: string) => {
     return transactions?.filter(({ transactionId }) =>
-      transactionId.toLowerCase().includes(searchTerm.toLowerCase()),
+      transactionId.toLowerCase().includes(searchTerm.toLowerCase())
     );
   };
-  console.log("Transactions:", transactions);
+
   return (
     <div className="max-w-2xl mx-auto p-6 bg-white rounded-lg shadow-md">
       <h1 className="text-2xl font-bold mb-6 text-gray-800">

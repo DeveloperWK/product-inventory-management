@@ -23,7 +23,6 @@ const CreateOrder: React.FC = () => {
       deliveryCharge: 0,
       status: "processing",
       paymentStatus: "pending",
-      transaction: "",
       recipient_name: "",
       recipient_phone: "",
       recipient_address: "",
@@ -236,15 +235,6 @@ const CreateOrder: React.FC = () => {
               </p>
             )}
           </div>
-        </div>
-
-        <div>
-          <label className="block font-medium mb-1">Transaction ID</label>
-          <input
-            type="text"
-            {...register("transaction")}
-            className="w-full p-2 border rounded"
-          />
         </div>
 
         {/* Courier Section */}

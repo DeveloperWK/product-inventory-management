@@ -144,7 +144,6 @@ const OrderShow = () => {
                           "processing",
                           "delivered",
                           "cancelled",
-                          "completed",
                           "returned",
                         ].map((status) => (
                           <option key={status} value={status}>
@@ -262,17 +261,13 @@ const OrderShow = () => {
                     }
                     className="block w-full rounded-md border-gray-300 shadow-sm text-sm"
                   >
-                    {[
-                      "processing",
-                      "delivered",
-                      "cancelled",
-                      "completed",
-                      "returned",
-                    ].map((status) => (
-                      <option key={status} value={status}>
-                        {status}
-                      </option>
-                    ))}
+                    {["processing", "delivered", "cancelled", "returned"].map(
+                      (status) => (
+                        <option key={status} value={status}>
+                          {status}
+                        </option>
+                      )
+                    )}
                   </select>
                 ) : (
                   <span className="px-2 inline-flex text-xs font-semibold rounded-full bg-blue-100 text-blue-800 capitalize">

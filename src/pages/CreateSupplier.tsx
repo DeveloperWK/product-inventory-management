@@ -18,7 +18,7 @@ const CreateSupplier: React.FC = () => {
   });
 
   const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
@@ -26,7 +26,7 @@ const CreateSupplier: React.FC = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log("Supplier Data:", formData);
+
     try {
       setIsLoading(true);
       await fetch(`${import.meta.env.VITE_API_URI}suppliers`, {

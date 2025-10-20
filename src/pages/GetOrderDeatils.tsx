@@ -40,7 +40,6 @@ const GetOrderDetails = () => {
   useEffect(() => {
     handleGetOrder();
   }, []);
-  console.table(order);
   if (isLoading)
     return (
       <div className="flex justify-center items-center min-h-screen">

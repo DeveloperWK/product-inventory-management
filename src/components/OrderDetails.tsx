@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { Order } from "../types/order";
 
 interface Props {
@@ -5,18 +6,49 @@ interface Props {
 }
 
 const OrderDetails: React.FC<Props> = ({ order }) => {
-  console.log(order);
+  const [isEdit, setIsEdit] = useState(false);
+  const [transactionID, setTransactionID] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+
+  const handleTransactionIDChange = (
+    e: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    setTransactionID(e.target.value);
+  };
+
+  const handleOnSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    try {
+      setIsLoading(true);
+      await fetch(`${import.meta.env.VITE_API_URI}orders/${order._id}`, {
+        method: "PATCH",
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          transaction: { transactionId: transactionID },
+        }),
+      });
+    } catch (error) {
+      console.error("Transaction update failed:", error);
+    } finally {
+      setIsLoading(false);
+      setIsEdit(false);
+    }
+  };
+
   return (
     <div className="max-w-4xl mx-auto bg-white shadow-lg rounded-lg p-6 mt-6 space-y-6">
       {/* Header */}
-      <div className="border-b pb-4 flex flex-col md:flex-row md:items-center justify-between">
+      <header className="border-b pb-4 flex flex-col md:flex-row md:items-center justify-between">
         <div>
           <h1 className="text-2xl font-bold text-gray-800">
-            Order Details #{order._id.slice(-6)}
+            Order #{order._id.slice(-6)}
           </h1>
           <p className="text-gray-500 text-sm">
-            Created on {new Date(order.createdAt).toLocaleDateString()} | Last
-            updated {new Date(order.updatedAt).toLocaleDateString()}
+            Created: {new Date(order.createdAt).toLocaleDateString()} | Updated:{" "}
+            {new Date(order.updatedAt).toLocaleDateString()}
           </p>
         </div>
         <span
@@ -28,10 +60,10 @@ const OrderDetails: React.FC<Props> = ({ order }) => {
         >
           {order.status.toUpperCase()}
         </span>
-      </div>
+      </header>
 
       {/* Order Summary */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+      <section className="grid grid-cols-1 md:grid-cols-2 gap-6">
         <div className="space-y-2">
           <h2 className="text-lg font-semibold text-gray-700">Order Summary</h2>
           <p className="text-gray-600">
@@ -44,11 +76,11 @@ const OrderDetails: React.FC<Props> = ({ order }) => {
           <p className="text-gray-600">
             <span className="font-semibold">Payment Status:</span>{" "}
             <span
-              className={`${
+              className={`font-semibold ${
                 order.paymentStatus === "paid"
                   ? "text-green-600"
                   : "text-yellow-600"
-              } font-semibold`}
+              }`}
             >
               {order.paymentStatus}
             </span>
@@ -68,19 +100,21 @@ const OrderDetails: React.FC<Props> = ({ order }) => {
             <span className="font-semibold">Tracking Code:</span>{" "}
             {order.trackingCode || "N/A"}
           </p>
-          <a
-            href={`https://steadfast.com.bd/t/${order.trackingCode}`}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-block text-blue-600 hover:underline text-sm"
-          >
-            Track Package →
-          </a>
+          {order.trackingCode && (
+            <a
+              href={`https://steadfast.com.bd/t/${order.trackingCode}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-block text-blue-600 hover:underline text-sm"
+            >
+              Track Package →
+            </a>
+          )}
         </div>
-      </div>
+      </section>
 
-      {/* Items */}
-      <div>
+      {/* Ordered Items */}
+      <section>
         <h2 className="text-lg font-semibold text-gray-700 mb-2">
           Ordered Items
         </h2>
@@ -121,42 +155,90 @@ const OrderDetails: React.FC<Props> = ({ order }) => {
             </tbody>
           </table>
         </div>
-      </div>
+      </section>
 
-      {/* Transaction */}
-      <div>
-        <h2 className="text-lg font-semibold text-gray-700 mb-2">
-          Transaction Details
-        </h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-gray-600">
-          <p>
-            <span className="font-semibold">Transaction Type:</span>{" "}
-            {order.transaction?.type || "N/A"}
-          </p>
-          <p>
-            <span className="font-semibold">Category:</span>{" "}
-            {order.transaction?.category || "N/A"}
-          </p>
-          <p>
-            <span className="font-semibold">Payment Method:</span>{" "}
-            {order.transaction?.paymentMethod || "N/A"}
-          </p>
-          <p>
-            <span className="font-semibold">Payment Status:</span>{" "}
-            {order.transaction?.paymentStatus || order.paymentStatus}
-          </p>
-          <p>
-            <span className="font-semibold">Transaction ID:</span>{" "}
-            {order.transaction?.transactionId || "N/A"}
-          </p>
-          <p>
-            <span className="font-semibold">Date:</span>{" "}
-            {order.transaction?.date
-              ? new Date(order.transaction.date).toLocaleDateString()
-              : "N/A"}
-          </p>
+      {/* Transaction Section */}
+      <section className="w-full max-w-md mx-auto bg-gray-50 shadow-inner rounded-xl p-4 sm:p-6">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+          <h2 className="text-lg sm:text-xl font-semibold text-gray-800">
+            Transaction Details
+          </h2>
+          {!isEdit && (
+            <button
+              onClick={() => setIsEdit(true)}
+              className="text-sm bg-indigo-600 hover:bg-indigo-700 text-white px-3 py-2 rounded-md transition-colors duration-200 w-full sm:w-auto"
+            >
+              Add Transaction
+            </button>
+          )}
         </div>
-      </div>
+
+        {isEdit && (
+          <form onSubmit={handleOnSubmit} className="mt-4 space-y-3">
+            <div>
+              <label className="block font-medium text-gray-700 mb-1 text-sm">
+                Transaction ID
+              </label>
+              <input
+                type="text"
+                onChange={handleTransactionIDChange}
+                value={transactionID}
+                className="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-indigo-500 focus:outline-none"
+                placeholder="Enter transaction ID"
+              />
+            </div>
+
+            <div className="flex flex-col sm:flex-row gap-2">
+              <button
+                type="submit"
+                disabled={isLoading}
+                className="w-full sm:w-auto bg-indigo-600 hover:bg-indigo-700 text-white text-sm px-4 py-2 rounded-md transition-colors duration-200"
+              >
+                {isLoading ? "Updating..." : "Update"}
+              </button>
+
+              <button
+                type="button"
+                onClick={() => setIsEdit(false)}
+                className="w-full sm:w-auto bg-gray-200 hover:bg-gray-300 text-gray-700 text-sm px-4 py-2 rounded-md transition-colors duration-200"
+              >
+                Cancel
+              </button>
+            </div>
+          </form>
+        )}
+
+        {!isEdit && !isLoading && (
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-gray-600 mt-4">
+            <p>
+              <span className="font-semibold">Transaction Type:</span>{" "}
+              {order.transaction?.type || "N/A"}
+            </p>
+            <p>
+              <span className="font-semibold">Category:</span>{" "}
+              {order.transaction?.category || "N/A"}
+            </p>
+            <p>
+              <span className="font-semibold">Payment Method:</span>{" "}
+              {order.transaction?.paymentMethod || "N/A"}
+            </p>
+            <p>
+              <span className="font-semibold">Payment Status:</span>{" "}
+              {order.transaction?.paymentStatus || order.paymentStatus}
+            </p>
+            <p>
+              <span className="font-semibold">Transaction ID:</span>{" "}
+              {order.transaction?.transactionId || "N/A"}
+            </p>
+            <p>
+              <span className="font-semibold">Date:</span>{" "}
+              {order.transaction?.date
+                ? new Date(order.transaction.date).toLocaleDateString()
+                : "N/A"}
+            </p>
+          </div>
+        )}
+      </section>
     </div>
   );
 };

@@ -18,11 +18,12 @@ const CourierSection = ({
     <>
       <div className="border-t pt-6">
         <button
-          className="text-lg font-bold mb-4 cursor-pointer bg-green-700 hover:bg-green-800 transition-colors duration-300 p-2 rounded-3xl"
           onClick={handleCourierChange}
+          className="w-full sm:w-auto text-lg font-semibold text-white bg-green-600 hover:bg-green-700 active:bg-green-800 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-1 transition-colors duration-300 px-4 py-2 rounded-full mb-4 shadow-md"
         >
           Courier Info
         </button>
+
         {courier && (
           <div className="space-y-4">
             <div>
